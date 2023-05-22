@@ -11,7 +11,7 @@ const inputDuration = document.querySelector(".form__input--duration");
 const inputCadence = document.querySelector(".form__input--cadence");
 const inputElevation = document.querySelector(".form__input--elevation");
 
-let map;
+let map, mapEvent;
 
 // Obtaining user geo location
 if (navigator.geolocation)
@@ -29,7 +29,9 @@ if (navigator.geolocation)
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      map.on("click", function (mapEvent) {
+      // Handling clicks on map
+      map.on("click", function (mapE) {
+        mapEvent = mapE;
         form.classList.remove('hidden')
         inputDistance.focus();
       });
@@ -39,7 +41,12 @@ if (navigator.geolocation)
     }
   );
 
-  form.addEventListener('submit', function () { 
+  form.addEventListener('submit', function (e) { 
+    e.preventDefault();
+
+    // Clear input fields
+    inputDistance.value = inputDuration.value  = inputElevation.value  = inputCadence.value  = '';
+    // Display marker
     console.log(mapEvent);
         const { lat, lng } = mapEvent.latlng;
         L.marker([lat, lng])
