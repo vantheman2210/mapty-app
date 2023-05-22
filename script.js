@@ -18,7 +18,7 @@ if (navigator.geolocation)
       const { latitude, longitude } = position.coords;
       console.log(latitude, longitude);
       console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
-      const coords = [latitude, longitude]
+      const coords = [latitude, longitude];
 
       const map = L.map("map").setView(coords, 13);
 
@@ -31,6 +31,15 @@ if (navigator.geolocation)
         .addTo(map)
         .bindPopup("A pretty CSS popup.<br> Easily customizable.")
         .openPopup();
+
+      map.on("click", function (mapEvent) {
+        console.log(mapEvent);
+        const { lat, lng } = mapEvent.latlng;
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup("A pretty CSS popup.<br> Easily customizable.")
+          .openPopup();
+      });
     },
     function () {
       alert("Could not get your position");
