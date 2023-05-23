@@ -126,6 +126,14 @@ class App {
     inputDistance.focus();
   }
 
+  _hideForm() {
+    // prettier-ignore
+    inputDistance.value = inputDuration.value = inputElevation.value = inputCadence.value = "";
+    form.style.display = 'none';
+    form.classList.add("hidden");
+    setTimeout(() =>  form.style.display = 'grid', 1000)
+  }
+
   _toggleElevationField() {
     inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
     inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
@@ -180,11 +188,7 @@ class App {
     this._renderWorkout(workout);
 
     // Hide form + clear input fields
-    inputDistance.value =
-      inputDuration.value =
-      inputElevation.value =
-      inputCadence.value =
-        "";
+    this._hideForm();
   }
 
   _renderWorkoutMarker(workout) {
@@ -199,7 +203,7 @@ class App {
           className: `${workout.type}-popup`,
         })
       )
-      .setPopupContent(workout.type)
+      .setPopupContent(`${workout.type === "running" ? "🏃" : "🚴"} ${workout.description}`)
       .openPopup();
   }
 
@@ -227,7 +231,7 @@ class App {
     <span class="workout__unit">min/km</span>
   </div>
   <div class="workout__details">
-    <span class="workout__icon">🦶🏼</span>
+    <span class="workout__icon">👣</span>
     <span class="workout__value">${workout.cadence}</span>
     <span class="workout__unit">spm</span>
   </div>
@@ -240,10 +244,12 @@ class App {
     </div>
     <div class="workout__details">
       <span class="workout__icon">⛰</span>
-      <span class="workout__value">${workout.elevation}</span>
+      <span class="workout__value">${workout.elevGain}</span>
       <span class="workout__unit">m</span>
     </div>
   </li>`;
+
+    form.insertAdjacentHTML("afterend", html);
   }
 }
 const app = new App();
