@@ -50,7 +50,34 @@ class App {
     });
   }
 
-  _showForm() {}
+  _showForm() {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Clear input fields
+      inputDistance.value =
+        inputDuration.value =
+        inputElevation.value =
+        inputCadence.value =
+          "";
+      // Display marker
+      console.log(mapEvent);
+      const { lat, lng } = this.#mapEvent.latlng;
+      L.marker([lat, lng])
+        .addTo(this.#map)
+        .bindPopup(
+          L.popup({
+            maxWidth: 250,
+            minWidth: 100,
+            autoClose: false,
+            closeOnClick: false,
+            className: "running-popup",
+          })
+        )
+        .setPopupContent("Workout")
+        .openPopup();
+    });
+  }
 
   _toggleElevationField() {}
 
@@ -58,33 +85,6 @@ class App {
 }
 
 const app = new App();
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  // Clear input fields
-  inputDistance.value =
-    inputDuration.value =
-    inputElevation.value =
-    inputCadence.value =
-      "";
-  // Display marker
-  console.log(mapEvent);
-  const { lat, lng } = mapEvent.latlng;
-  L.marker([lat, lng])
-    .addTo(map)
-    .bindPopup(
-      L.popup({
-        maxWidth: 250,
-        minWidth: 100,
-        autoClose: false,
-        closeOnClick: false,
-        className: "running-popup",
-      })
-    )
-    .setPopupContent("Workout")
-    .openPopup();
-});
 
 // Toggling form input
 inputType.addEventListener("change", function () {
