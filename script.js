@@ -19,34 +19,31 @@ class App {
   _getPosition() {
     // Obtaining user geo location
     if (navigator.geolocation)
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          const { latitude, longitude } = position.coords;
-          console.log(latitude, longitude);
-          console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
-          const coords = [latitude, longitude];
-
-          map = L.map("map").setView(coords, 13);
-
-          L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }).addTo(map);
-
-          // Handling clicks on map
-          map.on("click", function (mapE) {
-            mapEvent = mapE;
-            form.classList.remove("hidden");
-            inputDistance.focus();
-          });
-        },
-        function () {
-          alert("Could not get your position");
-        }
-      );
+      navigator.geolocation.getCurrentPosition(function () {
+        alert("Could not get your position");
+      });
   }
 
-  _loadMap() {}
+  _loadMap(position) {
+    const { latitude, longitude } = position.coords;
+    console.log(latitude, longitude);
+    console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+    const coords = [latitude, longitude];
+
+    map = L.map("map").setView(coords, 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Handling clicks on map
+    map.on("click", function (mapE) {
+      mapEvent = mapE;
+      form.classList.remove("hidden");
+      inputDistance.focus();
+    });
+  }
 
   _showForm() {}
 
