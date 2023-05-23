@@ -267,7 +267,12 @@ class App {
     );
 
     // Moving mark to workout
-    this.#map.setView(workout.coords, this.#mapZoom);
+    this.#map.setView(workout.coords, this.#mapZoom, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 const app = new App();
