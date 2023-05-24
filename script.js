@@ -13,6 +13,7 @@ const inputElevation = document.querySelector(".form__input--elevation");
 class Workout {
   date = new Date();
   id = (Date.now() + "").slice(-10);
+  clicks = 0;
 
   constructor(coords, distance, duration) {
     this.coords = coords; // [lat, lng]
@@ -39,6 +40,10 @@ class Workout {
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
+  }
+
+  click() { 
+    this.clicks += 1;
   }
 }
 
@@ -182,7 +187,6 @@ class App {
 
     // add new object to workout array
     this.#workouts.push(workout);
-    console.log(workout);
 
     // Render workout on map as marker
     this._renderWorkoutMarker(workout);
@@ -273,6 +277,8 @@ class App {
         duration: 1,
       },
     });
+    // using the public interface
+    workout.click();
   }
 }
 const app = new App();
